@@ -1,0 +1,4 @@
+12/03/2025 02:15:00 EventCode=1 process_name=Update.exe User=svc-backup Hash=91d13c4fb91808e8f1a7cbfbbac2c3338202cc4945ce8b482e1e0d5d65a02ebb
+12/03/2025 02:16:00 EventCode=1 process_name=powershell.exe User=svc-backup CommandLine="powershell -enc <encodedcommand>"
+12/03/2025 02:30:00 EventCode=1 process_name=psexec.exe Parent=cmd.exe Command="psexec \\10.1.10.22 -u admin -p P@ss123"
+12/03/2025 02:32:00 EventCode=1 process_name=wmic.exe CommandLine="wmic /node:10.1.10.22 process list"

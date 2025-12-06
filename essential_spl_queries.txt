@@ -1,0 +1,89 @@
+⭐ STEP 5A — Detect Brute Force Attack
+
+Query 1 — Failed logins count
+
+index=windows_security EventCode=4625 
+| stats count by AccountName, SourceIp 
+| where count>3
+
+
+👉 Expected result:
+admin failed 5 times from 10.1.10.100
+
+Query 2 — Successful login after brute force
+
+index=windows_security EventCode=4624 AccountName="admin"
+
+
+👉 Expected result:
+One successful login
+LogonType = 10
+SourceIp = 10.1.10.100
+
+⭐ STEP 5B — Detect Malware Execution
+
+Query 3 — Update.exe execution
+
+index=sysmon_process process_name="Update.exe"
+
+
+👉 Expected result:
+You should see:
+
+User = svc-backup
+
+Hash = 91d13c4f…
+
+Query 4 — Suspicious PowerShell
+
+index=sysmon_process process_name="powershell.exe"
+
+
+👉 Expected result:
+Encoded PowerShell command executed.
+
+⭐ STEP 5C — Detect Lateral Movement
+
+Query 5 — PsExec
+
+index=sysmon_process process_name="psexec.exe"
+
+
+👉 Expected result:
+Remote execution to 10.1.10.22
+
+Query 6 — WMIC
+
+index=sysmon_process process_name="wmic.exe"
+
+
+👉 Expected result:
+Remote enumeration on 10.1.10.22
+
+⭐ STEP 5D — Detect Persistence
+
+Query 7 — Scheduled Task Creation
+
+index=windows_security EventCode=4698
+
+
+👉 Expected result:
+TaskName = SystemUpdateCheck
+
+Query 8 — Registry Run Key
+
+index=windows_security EventCode=4657
+
+
+👉 Expected result:
+Registry Key → Run\Update
+
+⭐ STEP 5E — Detect Suspicious Network Activity
+
+Query 9 — External connection
+
+index=sysmon_network EventCode=3
+
+
+👉 Expected result:
+DestinationIP = 45.82.19.11
